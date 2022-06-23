@@ -53,15 +53,24 @@ Attribute VB_Name = "Module1"
         yearlyChange = ws.Cells(i, 6).Value - openPrice
         ws.Cells(i, 10).Value = yearlyChange
         
+        'color cell according positive or negative yearly change
+        If yearlyChange < 0 Then
+        
+            ws.Cells(i, 10).Interior.ColorIndex = 3
+            
+            Else
+            ws.Cells(i, 10).Interior.ColorIndex = 4
+        
+        End If
         
         
         
         'check for change in ticker and update values accordingly
         If currentTick <> nextTick Then
-        totalVol = 0
-        openPrice = ws.Cells(i + 1, 3).Value
-        
-        Else
+            totalVol = 0
+            openPrice = ws.Cells(i + 1, 3).Value
+            
+            Else
         
         
         End If
