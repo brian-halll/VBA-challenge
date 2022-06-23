@@ -49,6 +49,11 @@ Attribute VB_Name = "Module1"
         totalVol = totalVol + ws.Cells(i, 7).Value
         ws.Cells(i, 12) = totalVol
         
+        'calaculate yearly change
+        yearlyChange = ws.Cells(i, 6).Value - openPrice
+        ws.Cells(i, 10).Value = yearlyChange
+        
+        
         
         
         'check for change in ticker and update values accordingly
