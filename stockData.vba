@@ -12,9 +12,15 @@ Attribute VB_Name = "Module1"
     Dim percentChange As Double
     Dim yearlyChange As Double
     Dim totalVol As LongLong
+    Dim greatestVol As LongLong
+    greatestVol = 0
     
+    Dim greastestIncrease As Double
+    greastestIncrease = 0
     
-    
+    Dim greastestDecrease As Double
+    greatestDecrease = 0
+
     'loops through each worksheet
     For Each ws In Worksheets
     
@@ -63,13 +69,35 @@ Attribute VB_Name = "Module1"
         End If
         
         
-        'calculate percent change (change in percent / initial percent  *  100 ) and populate cell
+        'calculate percent change (change in percent / initial percent  *  100 ) and populate cell , also check for  greastest dcrease and increases
         percentChange = ((ws.Cells(i, 6).Value - openPrice) / openPrice)
+        If percentChange > greatestIncrease Then
+            increaseTick = currentTick
+            greatestIncrease = percentChange
+            
+            ElseIf percentChange < greastestDecrease Then
+            decreaseTick = currentTick
+            greastestDecrease = percentChange
+            
+            End If
+        
         ws.Cells(i, 11).Value = Format(percentChange, "##0.00%")
+        
+        'check for greastest total volume
+         If totalVol > greatestVol Then
+                greatestVol = totalVol
+                volTick = currentTick
+                
+                Else
+                
+                End If
         
         
         'check for change in ticker and update values accordingly
-        If currentTick <> nextTick Then.
+        If currentTick <> nextTick Then
+        
+            
+                
             totalVol = 0
             openPrice = ws.Cells(i + 1, 3).Value
             
@@ -83,6 +111,19 @@ Attribute VB_Name = "Module1"
      
     'end of first loop
     Next ws
+    
+    Cells(1, 15).Value = "Ticker"
+    Cells(1, 16).Value = "Value"
+    Cells(2, 14).Value = "Greatest %  Increase"
+    Cells(3, 14).Value = "Greatest %  Decrease"
+    Cells(4, 14).Value = "Greatest Total Volume"
+    Cells(4, 15).Value = volTick
+    Cells(3, 15).Value = increaseTick
+    Cells(2, 15).Value = decreaseTick
+    Cells(4, 16).Value = greatestVol
+    Cells(3, 16).Value = Format(greatestIncrease, "##0.00%")
+    Cells(2, 16).Value = Format(greastestDecrease, "##0.00%")
+    
     
     
 
