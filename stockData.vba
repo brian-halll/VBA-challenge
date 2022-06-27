@@ -8,28 +8,25 @@ Attribute VB_Name = "Module1"
 
  Sub stockData():
  
-    ' create variable to track what worksheet we areon
-    ' Dim ws As Worksheet
+
+    Dim percentChange As Double
+    Dim yearlyChange As Double
+    Dim totalVol As LongLong
+    
     
     
     'loops through each worksheet
     For Each ws In Worksheets
     
     'variable to track amount of rows in a worksheet
-     lastrow = Cells(ws.Rows.Count, 1).End(xlUp).Row
+     lastrow = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
      
      ws.Range("i1").Value = "Ticker"
      ws.Range("l1").Value = "Total Stock Volume"
      ws.Range("j1").Value = "Yearly  Change"
      ws.Range("k1").Value = "Percent Change"
      
-     
-     
-       'create variable to track stock volume
-        Dim totalVol As LongLong
-        
-        
-        
+
         'record opening price of initial stock in a worksheet
         openPrice = ws.Cells(2, 3).Value
         
@@ -45,13 +42,15 @@ Attribute VB_Name = "Module1"
         'populates new ticker cell
         ws.Cells(i, 9).Value = currentTick
         
-        'add volume of current row to total volume
+        'add volume of current row to total volume and populate cell
         totalVol = totalVol + ws.Cells(i, 7).Value
         ws.Cells(i, 12) = totalVol
         
-        'calaculate yearly change
+        'calaculate yearly change and populate cell
         yearlyChange = ws.Cells(i, 6).Value - openPrice
         ws.Cells(i, 10).Value = yearlyChange
+        
+
         
         'color cell according positive or negative yearly change
         If yearlyChange < 0 Then
@@ -64,14 +63,17 @@ Attribute VB_Name = "Module1"
         End If
         
         
+        'calculate percent change (change in percent / initial percent  *  100 ) and populate cell
+        percentChange = ((ws.Cells(i, 6).Value - openPrice) / openPrice)
+        ws.Cells(i, 11).Value = Format(percentChange, "##0.00%")
+        
         
         'check for change in ticker and update values accordingly
-        If currentTick <> nextTick Then
+        If currentTick <> nextTick Then.
             totalVol = 0
             openPrice = ws.Cells(i + 1, 3).Value
             
             Else
-        
         
         End If
         
